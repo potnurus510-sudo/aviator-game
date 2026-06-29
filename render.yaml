@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: aviator-game
+    env: node
+    region: singapore
+    buildCommand: npm install
+    startCommand: node backend/server.js
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: UPI_ID
+        sync: false
+    disk:
+      name: data
+      mountPath: /opt/render/project/src/backend/data
+      sizeGB: 1
