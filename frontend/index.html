@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0a0a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="Aviator Crash Game - Win Real Money with UPI">
+    <title>✈️ Aviator - Crash Game</title>
+    <style>
+        :root {
+            --bg: #0a0a1a;
+            --bg2: #12122a;
+            --panel: rgba(255,255,255,0.04);
+            --panel2: rgba(255,255,255,0.08);
+            --accent: #00d2ff;
+            --accent2: #7c3aed;
+            --gold: #ffd700;
+            --green: #00ff88;
+            --red: #ff4444;
+            --orange: #ff6b35;
+            --pink: #ff2d95;
+            --text: #ffffff;
+            --text2: #999999;
+            --border: rgba(255,255,255,0.1);
+            --shadow: 0 10px 40px rgba(0,0,0,0.5);
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(ellipse at 20% 50%, rgba(0,210,255,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 50%, rgba(124,58,237,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 0%, rgba(255,215,0,0.03) 0%, transparent 50%);
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+        /* ============ AUTH SCREEN ============ */
+        .auth-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            height: 100dvh;
+            padding: 20px;
+        }
+
+        .auth-box {
+            background: var(--panel);
+            border-radius: 24px;
+            padding: 40px 32px;
+            width: 420px;
+            max-width: 100%;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .auth-logo { font-size: 56px; margin-bottom: 8px; animation: float 3s ease-in-out infinite; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .auth-title {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+        }
+
+        .auth-subtitle { color: var(--text2); font-size: 14px; margin-bottom: 28px; }
+
+        .form-group { margin-bottom: 16px; text-align: left; }
+
+        .form-group label {
+            display: block;
+            color: var(--text2);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--panel2);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,210,255,0.1); }
+
+        .auth-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 8px;
+        }
+
+        .auth-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,210,255,0.3); }
+        .auth-btn:active { transform: scale(0.97); }
+
+        .auth-toggle { margin-top: 20px; color: var(--text2); font-size: 14px; }
+        .auth-toggle span { color: var(--accent); cursor: pointer; font-weight: 700; }
+        .auth-toggle span:hover { text-decoration: underline; }
+
+        .alert-msg {
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 12px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .alert-error { background: rgba(255,68,68,0.15); color: var(--red); border: 1px solid rgba(255,68,68,0.3); display: block; }
+        .alert-success { background: rgba(0,255,136,0.15); color: var(--green); border: 1px solid rgba(0,255,136,0.3); display: block; }
+
+        .hidden { display: none !important; }
+
+        /* ============ GAME SCREEN ============ */
+        .game-wrapper {
+            display: grid;
+            grid-template-rows: auto 1fr;
+            height: 100vh;
+            height: 100dvh;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 8px;
+            gap: 8px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 18px;
+            background: var(--panel);
+            border-radius: var(--radius);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 10px; }
+
+        .logo-icon { font-size: 28px; animation: float 2s ease-in-out infinite; }
+        .logo-text {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+        .balance-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            background: rgba(0,210,255,0.1);
+            border: 1px solid rgba(0,210,255,0.3);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 700;
+            font-size: 15px;
+            white-space: nowrap;
+        }
+
+        .balance-badge:hover { background: rgba(0,210,255,0.2); transform: scale(1.03); }
+        .balance-amount { color: var(--accent); font-size: 17px; }
+
+        .vip-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .vip-bronze { background: rgba(205,127,50,0.3); color: #cd7f32; }
+        .vip-silver { background: rgba(192,192,192,0.3); color: #c0c0c0; }
+        .vip-gold { background: rgba(255,215,0,0.3); color: #ffd700; }
+        .vip-platinum { background: rgba(0,210,255,0.3); color: #00d2ff; }
+        .vip-diamond { background: rgba(255,45,149,0.3); color: #ff2d95; }
+
+        .btn-h {
+            padding: 9px 16px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .btn-h:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+        .btn-h:active { transform: scale(0.95); }
+
+        .btn-dep { background: linear-gradient(135deg, var(--green), #00b4d8); color: #000; }
+        .btn-wit { background: linear-gradient(135deg, var(--orange), var(--red)); color: #fff; }
+        .btn-txn { background: var(--panel2); color: var(--text); border: 1px solid var(--border); }
+        .btn-logout { background: rgba(255,68,68,0.2); color: var(--red); border: 1px solid rgba(255,68,68,0.3); }
+
+        .mode-select { padding: 9px 14px; background: var(--panel2); border: 1px solid var(--border); border-radius: 25px; color: var(--text); font-size: 13px; font-weight: 600; cursor: pointer; outline: none; }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 370px;
+            gap: 8px;
+            min-height: 0;
+        }
+
+        .game-area {
+            position: relative;
+            background: var(--panel);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+        }
+
+        #gameCanvas { width: 100%; height: 100%; display: block; }
+
+        .multiplier-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 85px;
+            font-weight: 900;
+            letter-spacing: -2px;
+            text-shadow: 0 0 60px rgba(0,210,255,0.8), 0 0 120px rgba(0,210,255,0.4);
+            transition: all 0.15s ease-out;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .multiplier-overlay.crashed {
+            color: var(--red) !important;
+            text-shadow: 0 0 60px rgba(255,68,68,0.8), 0 0 120px rgba(255,68,68,0.4);
+            animation: shake 0.6s ease-out;
+        }
+
+        .multiplier-overlay.cashed {
+            color: var(--green) !important;
+            text-shadow: 0 0 60px rgba(0,255,136,0.8), 0 0 120px rgba(0,255,136,0.4);
+            animation: popIn 0.5s ease-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0); }
+            20% { transform: translate(-50%, -50%) rotate(-8deg) scale(1.1); }
+            40% { transform: translate(-50%, -50%) rotate(8deg) scale(1.05); }
+            60% { transform: translate(-50%, -50%) rotate(-4deg); }
+            80% { transform: translate(-50%, -50%) rotate(4deg); }
+        }
+
+        @keyframes popIn {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.35); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .game-status {
+            position: absolute;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px 22px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            z-index: 10;
+            pointer-events: none;
+            backdrop-filter: blur(10px);
+        }
+
+        .st-waiting { background: rgba(255,215,0,0.2); color: var(--gold); border: 1px solid rgba(255,215,0,0.3); }
+        .st-flying { background: rgba(0,255,136,0.2); color: var(--green); border: 1px solid rgba(0,255,136,0.3); }
+        .st-crashed { background: rgba(255,68,68,0.2); color: var(--red); border: 1px solid rgba(255,68,68,0.3); }
+
+        .rain-alert {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 22px;
+            background: linear-gradient(135deg, rgba(255,215,0,0.3), rgba(255,165,0,0.3));
+            border: 2px solid var(--gold);
+            border-radius: 25px;
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 13px;
+            z-index: 10;
+            pointer-events: none;
+            animation: glowPulse 1s infinite alternate;
+        }
+
+        @keyframes glowPulse {
+            from { box-shadow: 0 0 20px rgba(255,215,0,0.3); }
+            to { box-shadow: 0 0 40px rgba(255,215,0,0.6); }
+        }
+
+        /* Side Panel */
+        .side-panel { display: flex; flex-direction: column; gap: 8px; min-height: 0; overflow: hidden; }
+
+        .panel-card {
+            background: var(--panel);
+            border-radius: var(--radius);
+            padding: 16px;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+        }
+
+        .tabs-row {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 12px;
+            background: var(--panel2);
+            border-radius: 10px;
+            padding: 4px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 9px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: var(--text2);
+            border: none;
+            background: transparent;
+        }
+
+        .tab-btn.active { background: var(--accent); color: #000; box-shadow: 0 4px 12px rgba(0,210,255,0.3); }
+
+        .bet-input-row { display: flex; gap: 8px; margin-bottom: 8px; }
+
+        .bet-input {
+            flex: 1;
+            padding: 11px;
+            background: var(--panel2);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 15px;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .bet-input:focus { border-color: var(--accent); }
+
+        .quick-bets { display: flex; gap: 5px; margin-bottom: 8px; flex-wrap: wrap; }
+
+        .qbet {
+            padding: 7px 13px;
+            background: var(--panel2);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .qbet:hover { background: var(--accent); color: #000; border-color: var(--accent); }
+        .qbet.free { background: rgba(255,215,0,0.15); border-color: var(--gold); color: var(--gold); }
+
+        .btn-game {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-game:hover { transform: translateY(-2px); }
+        .btn-game:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+        .btn-game:active { transform: scale(0.97); }
+
+        .btn-bet { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; box-shadow: 0 4px 20px rgba(0,210,255,0.3); }
+        .btn-cashout {
+            background: linear-gradient(135deg, #f12711, #f5af19);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(245,175,25,0.4);
+            animation: pulseBtn 1.5s infinite;
+            display: none;
+        }
+
+        @keyframes pulseBtn {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(245,175,25,0.5); }
+            50% { box-shadow: 0 0 0 15px rgba(245,175,25,0); }
+        }
+
+        .btn-verify { background: var(--panel2); color: var(--text2); font-size: 11px; padding: 9px; margin-top: 6px; border: 1px solid var(--border); }
+
+        /* Chat */
+        .chat-msgs { height: 110px; overflow-y: auto; margin-bottom: 6px; font-size: 11px; }
+
+        .cmsg {
+            padding: 5px 9px;
+            margin: 2px 0;
+            border-radius: 6px;
+            animation: slideIn 0.3s ease;
+            font-size: 11px;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(8px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .cmsg-sys { background: rgba(255,215,0,0.06); color: var(--gold); font-size: 10px; }
+        .cmsg-big { background: rgba(0,255,136,0.06); border-left: 2px solid var(--green); }
+
+        .chat-row { display: flex; gap: 4px; }
+
+        .chat-inp {
+            flex: 1;
+            padding: 9px 12px;
+            background: var(--panel2);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            color: var(--text);
+            font-size: 12px;
+            outline: none;
+        }
+
+        .chat-send {
+            padding: 9px 16px;
+            background: var(--accent);
+            border: none;
+            border-radius: 18px;
+            color: #000;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        /* Leaderboard */
+        .lb-row {
+            display: grid;
+            grid-template-columns: 32px 1fr auto;
+            gap: 6px;
+            padding: 7px 9px;
+            margin: 2px 0;
+            background: var(--panel2);
+            border-radius: 7px;
+            font-size: 11px;
+            align-items: center;
+        }
+
+        .lb-r { font-weight: 700; text-align: center; }
+        .lb-r.t3 { color: var(--gold); font-size: 15px; }
+        .lb-w { color: var(--green); font-weight: 700; }
+
+        .history-bar { display: flex; gap: 5px; overflow-x: auto; padding: 4px 0; }
+
+        .hdot {
+            min-width: 50px;
+            padding: 7px 9px;
+            border-radius: 7px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .hdot.low { background: rgba(255,68,68,0.2); color: var(--red); }
+        .hdot.mid { background: rgba(0,255,136,0.2); color: var(--green); }
+        .hdot.high { background: rgba(255,215,0,0.2); color: var(--gold); }
+
+        /* Modals */
+        .modal-over {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-over.show { display: flex; }
+
+        .modal-box {
+            background: linear-gradient(145deg, #1a1a2e, #12122a);
+            border-radius: 20px;
+            padding: 24px;
+            max-width: 450px;
+            width: 92%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: var(--text2);
+            font-size: 22px;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+
+        .modal-box h2 { font-size: 19px; margin-bottom: 14px; text-align: center; }
+        .modal-box label { display: block; color: var(--text2); font-size: 11px; margin: 8px 0 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .modal-box input, .modal-box select {
+            width: 100%;
+            padding: 11px;
+            background: var(--panel2);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 14px;
+            outline: none;
+        }
+        .modal-box input:focus { border-color: var(--accent); }
+
+        .qr-box { text-align: center; margin: 14px 0; padding: 18px; background: #fff; border-radius: 14px; }
+        .qr-box img { max-width: 200px; border-radius: 8px; }
+
+        .upi-box {
+            background: rgba(0,210,255,0.06);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 10px 0;
+            border: 2px dashed var(--accent);
+            word-break: break-all;
+        }
+
+        .upi-box code { font-size: 17px; color: var(--accent); font-weight: 700; }
+
+        .copy-btn {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 7px 14px;
+            border-radius: 18px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 12px;
+            margin: 6px 0;
+        }
+
+        .bonus-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--gold), #ffa500);
+            color: #000;
+            padding: 5px 14px;
+            border-radius: 18px;
+            font-weight: 700;
+            font-size: 12px;
+            margin: 6px 0;
+        }
+
+        .chip-row { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0; }
+
+        .chip {
+            padding: 9px 14px;
+            background: var(--panel2);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .chip:hover, .chip.sel { background: var(--accent); color: #000; border-color: var(--accent); }
+
+        .btn-pri {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 6px;
+        }
+
+        .btn-pri:hover { transform: translateY(-2px); }
+
+        .btn-deposit { background: linear-gradient(135deg, var(--green), #00b4d8); color: #000; }
+        .btn-withdraw { background: linear-gradient(135deg, var(--orange), var(--red)); color: #fff; }
+        .btn-confirm { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; }
+
+        .txn-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            margin: 3px 0;
+            background: var(--panel2);
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .txn-dep { border-left: 3px solid var(--green); }
+        .txn-wit { border-left: 3px solid var(--orange); }
+
+        .stb {
+            padding: 3px 9px;
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .stb-ok { background: rgba(0,255,136,0.2); color: var(--green); }
+        .stb-pend { background: rgba(255,215,0,0.2); color: var(--gold); }
+        .stb-proc { background: rgba(0,210,255,0.2); color: var(--accent); }
+        .stb-appr { background: rgba(0,255,136,0.3); color: var(--green); }
+
+        .active-bet-info {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 12px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .level-up {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, var(--gold), #ffa500);
+            color: #000;
+            padding: 20px 40px;
+            border-radius: 20px;
+            font-size: 24px;
+            font-weight: 900;
+            z-index: 2000;
+            animation: levelPop 2s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes levelPop {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            30% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            60% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1) translateY(-30px); }
+        }
+
+        @media (max-width: 768px) {
+            .main-content { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+            .multiplier-overlay { font-size: 55px; }
+            .header { padding: 8px 12px; }
+            .btn-h { padding: 7px 12px; font-size: 10px; }
+            .balance-badge { padding: 8px 12px; font-size: 13px; }
+            .modal-box { max-width: 100%; margin: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ AUTH SCREEN ============ -->
+    <div class="auth-screen" id="authScreen">
+        <div class="auth-box">
+            <div class="auth-logo">✈️</div>
+            <div class="auth-title">Aviator</div>
+            <div class="auth-subtitle">Crash Game • Win Real Money</div>
+            
+            <div class="alert-msg" id="authAlert"></div>
+            
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••" required minlength="6">
+                </div>
+                <button type="submit" class="auth-btn">🚀 Login & Play</button>
+            </form>
+            
+            <form id="signupForm" class="hidden" onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="signupUsername" placeholder="Choose username" required minlength="3">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="signupEmail" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="signupPassword" placeholder="Min 6 characters" required minlength="6">
+                </div>
+                <button type="submit" class="auth-btn">🎮 Create Account</button>
+            </form>
+            
+            <div class="auth-toggle">
+                <span id="toggleText">Don't have an account?</span>
+                <span onclick="toggleAuth()" id="toggleLink">Sign Up</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ GAME SCREEN ============ -->
+    <div class="game-wrapper hidden" id="gameScreen">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <span class="logo-icon">✈️</span>
+                <span class="logo-text">Aviator</span>
+            </div>
+            <div class="header-right">
+                <select class="mode-select" id="gameMode" onchange="changeMode(this.value)">
+                    <option value="classic">🎯 Classic</option>
+                    <option value="turbo">⚡ Turbo</option>
+                    <option value="safe">🛡️ Safe</option>
+                    <option value="jackpot">💎 Jackpot</option>
+                </select>
+                <div class="balance-badge" onclick="openModal('depositModal')">
+                    💰 <span class="balance-amount">₹<span id="balance">0</span></span>
+                </div>
+                <span class="vip-badge vip-bronze" id="vipBadge">Bronze</span>
+                <button class="btn-h btn-dep" onclick="openModal('depositModal')">💳 Add</button>
+                <button class="btn-h btn-wit" onclick="openModal('withdrawModal')">💸 Out</button>
+                <button class="btn-h btn-txn" onclick="openModal('txnModal')">📋</button>
+                <button class="btn-h btn-logout" onclick="logout()">🚪</button>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <div class="main-content">
+            <div class="game-area" id="gameArea">
+                <canvas id="gameCanvas"></canvas>
+                <div class="game-status st-waiting" id="gameStatus">🎲 Place Bets</div>
+                <div class="multiplier-overlay" id="multiplierDisplay">1.00x</div>
+                <div class="rain-alert hidden" id="rainAlert">🌧️ Rain Rewards! 🌧️</div>
+            </div>
+
+            <div class="side-panel">
+                <div class="panel-card">
+                    <div class="tabs-row">
+                        <button class="tab-btn active" onclick="switchPanel('bet')">🎲 Bet</button>
+                        <button class="tab-btn" onclick="switchPanel('chat')">💬 Chat</button>
+                        <button class="tab-btn" onclick="switchPanel('lb')">🏆 Top</button>
+                    </div>
+
+                    <div id="betPanel">
+                        <div class="bet-input-row">
+                            <input type="number" class="bet-input" id="betAmount" value="10" min="10" step="10" placeholder="Bet ₹">
+                        </div>
+                        <div class="quick-bets">
+                            <span class="qbet" onclick="setBet(10)">₹10</span>
+                            <span class="qbet" onclick="setBet(50)">₹50</span>
+                            <span class="qbet" onclick="setBet(100)">₹100</span>
+                            <span class="qbet" onclick="setBet(500)">₹500</span>
+                            <span class="qbet" onclick="setBet(1000)">₹1K</span>
+                            <span class="qbet free" onclick="useFreeBet()">🎁 Free</span>
+                        </div>
+                        <input type="number" class="bet-input" id="autoCashout" placeholder="Auto cashout (e.g. 2.0x)" step="0.1" style="margin-bottom:8px;">
+                        <button class="btn-game btn-bet" id="betBtn" onclick="placeBet()">🚀 Place Bet</button>
+                        <button class="btn-game btn-cashout" id="cashoutBtn" onclick="cashout()">💰 CASH OUT</button>
+                        <button class="btn-game btn-verify" onclick="openModal('verifyModal')">🔍 Verify Fairness</button>
+                        <div class="active-bet-info" id="activeBetInfo"></div>
+                    </div>
+
+                    <div id="chatPanel" class="hidden">
+                        <div class="chat-msgs" id="chatMessages"></div>
+                        <div class="chat-row">
+                            <input type="text" class="chat-inp" id="chatInput" placeholder="Type..." maxlength="150" onkeypress="if(event.key==='Enter')sendChat()">
+                            <button class="chat-send" onclick="sendChat()">Send</button>
+                        </div>
+                    </div>
+
+                    <div id="lbPanel" class="hidden">
+                        <div id="leaderboardList" style="max-height:250px;overflow-y:auto;"></div>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div style="font-size:12px;font-weight:700;margin-bottom:6px;">📊 Recent</div>
+                    <div class="history-bar" id="historyBar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ DEPOSIT MODAL ============ -->
+    <div class="modal-over" id="depositModal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal('depositModal')">✕</button>
+            <h2>💳 Add Money</h2>
+            <div class="bonus-tag">🎁 +10% Bonus!</div>
+            <label>Amount</label>
+            <div class="chip-row">
+                <span class="chip" onclick="selectDepAmount(200)">₹200</span>
+                <span class="chip" onclick="selectDepAmount(500)">₹500</span>
+                <span class="chip sel" onclick="selectDepAmount(1000)">₹1,000</span>
+                <span class="chip" onclick="selectDepAmount(2000)">₹2,000</span>
+                <span class="chip" onclick="selectDepAmount(5000)">₹5,000</span>
+                <span class="chip" onclick="selectDepAmount(10000)">₹10K</span>
+            </div>
+            <input type="number" id="depositAmount" value="1000" min="100" max="50000" step="100" oninput="updateDepInfo()">
+            <div style="text-align:center;margin:8px 0;color:var(--green);font-weight:600;">
+                Bonus: +₹<span id="bonusAmt">100</span> | Get: ₹<span id="totalGet">1,100</span>
+            </div>
+            <button class="btn-pri btn-deposit" onclick="initiateDeposit()">Generate UPI QR</button>
+            <div id="upiSection" style="display:none;">
+                <div class="qr-box"><img id="qrImage" src="" alt="QR" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23fff%22 width=%22200%22 height=%22200%22/><text x=%22100%22 y=%22100%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22>QR Load</text></svg>'"></div>
+                <div class="upi-box"><code id="upiIdDisplay">loading...</code><br><button class="copy-btn" onclick="copyUPI()">📋 Copy</button></div>
+                <p style="text-align:center;color:var(--text2);font-size:11px;">Amount: ₹<span id="upiAmt">0</span></p>
+                <label>UPI Reference / UTR</label>
+                <input type="text" id="upiReference" placeholder="e.g. 123456789012">
+                <button class="btn-pri btn-confirm" onclick="confirmDeposit()">✅ I've Paid</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ WITHDRAW MODAL ============ -->
+    <div class="modal-over" id="withdrawModal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal('withdrawModal')">✕</button>
+            <h2>💸 Withdraw</h2>
+            <div style="text-align:center;margin:10px 0;"><p style="color:var(--text2);">Available</p><h2 style="color:var(--accent);">₹<span id="wBalance">0</span></h2></div>
+            <label>Amount (₹200-25,000)</label>
+            <input type="number" id="withdrawAmount" min="200" max="25000" step="100" placeholder="Min ₹200">
+            <label>Your UPI ID</label>
+            <input type="text" id="withdrawUpiId" placeholder="name@upi">
+            <p style="color:var(--text2);font-size:10px;margin:6px 0;">• Under ₹1000: Instant • Over: 24hrs • Free</p>
+            <button class="btn-pri btn-withdraw" onclick="requestWithdrawal()">Withdraw Now</button>
+        </div>
+    </div>
+
+    <!-- ============ TRANSACTIONS MODAL ============ -->
+    <div class="modal-over" id="txnModal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal('txnModal')">✕</button>
+            <h2>📋 Transactions</h2>
+            <div id="txnList" style="max-height:400px;overflow-y:auto;"></div>
+        </div>
+    </div>
+
+    <!-- ============ VERIFY MODAL ============ -->
+    <div class="modal-over" id="verifyModal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal('verifyModal')">✕</button>
+            <h2>🔍 Verify Round</h2>
+            <p style="color:var(--text2);font-size:11px;text-align:center;">HMAC-SHA512 Proof</p>
+            <label>Round ID</label><input type="text" id="vRoundId" readonly>
+            <label>Server Seed</label><input type="text" id="vServerSeed" readonly>
+            <label>Client Seed</label><input type="text" id="vClientSeed" readonly>
+            <label>Crash Point</label><input type="text" id="vCrashPoint" readonly>
+            <div id="vIcon" style="text-align:center;font-size:44px;margin:10px 0;"></div>
+            <div id="vText" style="text-align:center;font-size:13px;"></div>
+            <button class="btn-pri btn-confirm" onclick="verifyRound()">Verify</button>
+            <button class="btn-pri" onclick="closeModal('verifyModal')" style="background:var(--panel2);margin-top:6px;">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // ============ GLOBAL STATE ============
+        const API = window.location.origin;
+        let token = localStorage.getItem('av_token');
+        let user = null;
+        let ws = null;
+        let playerId = null;
+        let balance = 0;
+        let currentBet = null;
+        let freeBets = 0;
+        let gameState = 'waiting';
+        let currentMultiplier = 1.0;
+        let upiConfig = {};
+        let isLogin = true;
+        let canvas, ctx;
+        let airplaneTrail = [];
+
+        // ============ AUTH ============
+        function toggleAuth() {
+            isLogin = !isLogin;
+            document.getElementById('loginForm').classList.toggle('hidden', !isLogin);
+            document.getElementById('signupForm').classList.toggle('hidden', isLogin);
+            document.getElementById('toggleText').textContent = isLogin ? "Don't have an account?" : "Already have an account?";
+            document.getElementById('toggleLink').textContent = isLogin ? "Sign Up" : "Login";
+            hideAlert();
+        }
+
+        function showAlert(msg, type) {
+            const el = document.getElementById('authAlert');
+            el.textContent = msg;
+            el.className = 'alert-msg alert-' + type;
+            el.style.display = 'block';
+            setTimeout(() => { el.style.display = 'none'; }, 4000);
+        }
+
+        function hideAlert() {
+            document.getElementById('authAlert').style.display = 'none';
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            try {
+                const res = await fetch(`${API}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+                if (!res.ok) return showAlert(data.error, 'error');
+                token = data.token;
+                user = data.user;
+                localStorage.setItem('av_token', token);
+                enterGame();
+            } catch (e) { showAlert('Connection error', 'error'); }
+        }
+
+        async function handleSignup(e) {
+            e.preventDefault();
+            const username = document.getElementById('signupUsername').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            try {
+                const res = await fetch(`${API}/api/auth/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password })
+                });
+                const data = await res.json();
+                if (!res.ok) return showAlert(data.error, 'error');
+                token = data.token;
+                user = data.user;
+                localStorage.setItem('av_token', token);
+                showAlert('Account created! 🎉', 'success');
+                setTimeout(enterGame, 800);
+            } catch (e) { showAlert('Connection error', 'error'); }
+        }
+
+        async function verifyAndEnter() {
+            try {
+                const res = await fetch(`${API}/api/auth/profile`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!res.ok) return logout();
+                user = await res.json();
+                enterGame();
+            } catch (e) { logout(); }
+        }
+
+        function enterGame() {
+            document.getElementById('authScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+            initGame();
+        }
+
+        function logout() {
+            if (ws) ws.close();
+            localStorage.removeItem('av_token');
+            token = null;
+            user = null;
+            document.getElementById('authScreen').classList.remove('hidden');
+            document.getElementById('gameScreen').classList.add('hidden');
+            hideAlert();
+        }
+
+        // ============ GAME INIT ============
+        function initGame() {
+            canvas = document.getElementById('gameCanvas');
+            ctx = canvas.getContext('2d');
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            connectWS();
+            updateUserUI();
+            drawLoop();
+        }
+
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+
+        function updateUserUI() {
+            if (!user) return;
+            balance = user.balance || 0;
+            freeBets = user.freeBets || 0;
+            document.getElementById('balance').textContent = balance.toFixed(2);
+            document.getElementById('wBalance').textContent = balance.toFixed(2);
+            updateVIPBadge(user.vipTier);
+        }
+
+        function updateVIPBadge(tier) {
+            const b = document.getElementById('vipBadge');
+            b.textContent = tier || 'Bronze';
+            b.className = 'vip-badge vip-' + (tier || 'bronze').toLowerCase();
+        }
+
+        // ============ WEBSOCKET ============
+        function connectWS() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            ws = new WebSocket(`${protocol}//${window.location.host}`);
+
+            ws.onopen = () => {
+                ws.send(JSON.stringify({ type: 'AUTH', token }));
+            };
+
+            ws.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    handleWSMessage(data);
+                } catch (e) {}
+            };
+
+            ws.onclose = () => {
+                setTimeout(connectWS, 3000);
+            };
+        }
+
+        function handleWSMessage(data) {
+            switch (data.type) {
+                case 'AUTH_SUCCESS':
+                    user = data.user;
+                    updateUserUI();
+                    updateHistory(data.history || []);
+                    updateLeaderboard(data.leaderboard || []);
+                    upiConfig = data.upiConfig || {};
+                    document.getElementById('upiIdDisplay').textContent = upiConfig.upiId || 'loading...';
+                    if (data.currentRound) {
+                        gameState = data.currentRound.status;
+                        currentMultiplier = data.currentRound.multiplier || 1.0;
+                    }
+                    break;
+
+                case 'AUTH_ERROR':
+                    alert('Session expired. Please login again.');
+                    logout();
+                    break;
+
+                case 'ROUND_STARTING':
+                    gameState = 'waiting';
+                    currentMultiplier = 1.0;
+                    currentBet = null;
+                    document.getElementById('multiplierDisplay').textContent = '1.00x';
+                    document.getElementById('multiplierDisplay').className = 'multiplier-overlay';
+                    document.getElementById('multiplierDisplay').style.color = '#fff';
+                    document.getElementById('gameStatus').textContent = '🎲 Place Bets!';
+                    document.getElementById('gameStatus').className = 'game-status st-waiting';
+                    document.getElementById('betBtn').disabled = false;
+                    document.getElementById('cashoutBtn').style.display = 'none';
+                    document.getElementById('activeBetInfo').textContent = '';
+                    document.getElementById('rainAlert').classList.add('hidden');
+                    airplaneTrail = [];
+                    document.getElementById('vRoundId').value = data.roundId || '';
+                    document.getElementById('vServerSeed').value = '';
+                    document.getElementById('vClientSeed').value = '';
+                    document.getElementById('vCrashPoint').value = '';
+                    break;
+
+                case 'ROUND_STARTED':
+                    gameState = 'flying';
+                    document.getElementById('gameStatus').textContent = '✈️ Flying!';
+                    document.getElementById('gameStatus').className = 'game-status st-flying';
+                    document.getElementById('betBtn').disabled = true;
+                    if (currentBet) document.getElementById('cashoutBtn').style.display = 'block';
+                    break;
+
+                case 'MULTIPLIER':
+                    currentMultiplier = data.value;
+                    const md = document.getElementById('multiplierDisplay');
+                    md.textContent = data.value.toFixed(2) + 'x';
+                    if (data.value >= 10) md.style.color = '#ffd700';
+                    else if (data.value >= 5) md.style.color = '#ff6b6b';
+                    else if (data.value >= 2) md.style.color = '#ff9f43';
+                    else md.style.color = '#fff';
+                    if (currentBet?.autoCashout && data.value >= currentBet.autoCashout && gameState === 'flying') cashout();
+                    break;
+
+                case 'CRASHED':
+                    gameState = 'crashed';
+                    document.getElementById('multiplierDisplay').textContent = data.crashPoint.toFixed(2) + 'x';
+                    document.getElementById('multiplierDisplay').className = 'multiplier-overlay crashed';
+                    document.getElementById('gameStatus').textContent = '💥 Crashed @ ' + data.crashPoint.toFixed(2) + 'x';
+                    document.getElementById('gameStatus').className = 'game-status st-crashed';
+                    document.getElementById('cashoutBtn').style.display = 'none';
+                    document.getElementById('rainAlert').classList.add('hidden');
+                    const mr = data.results?.find(r => r.playerId === user?.id);
+                    if (mr) { balance = mr.balance; document.getElementById('balance').textContent = balance.toFixed(2); }
+                    currentBet = null;
+                    document.getElementById('vRoundId').value = data.roundId || '';
+                    document.getElementById('vServerSeed').value = data.serverSeed || '';
+                    document.getElementById('vClientSeed').value = data.clientSeed || '';
+                    document.getElementById('vCrashPoint').value = data.crashPoint || '';
+                    break;
+
+                case 'BET_CONFIRMED':
+                    balance = data.newBalance;
+                    document.getElementById('balance').textContent = balance.toFixed(2);
+                    currentBet = { amount: data.amount, autoCashout: data.autoCashout };
+                    document.getElementById('activeBetInfo').innerHTML = '🎯 ₹' + data.amount + (data.autoCashout ? ' | Auto: ' + data.autoCashout + 'x' : '');
+                    break;
+
+                case 'CASHOUT_SUCCESS':
+                    balance = data.newBalance;
+                    document.getElementById('balance').textContent = balance.toFixed(2);
+                    document.getElementById('multiplierDisplay').className = 'multiplier-overlay cashed';
+                    document.getElementById('cashoutBtn').style.display = 'none';
+                    document.getElementById('activeBetInfo').textContent = '✅ Won ₹' + data.profit.toFixed(2) + ' @ ' + data.multiplier + 'x!';
+                    if (data.levelUp) showLevelUp(data.newLevel);
+                    if (user) { user.vipTier = data.vipTier; updateVIPBadge(data.vipTier); }
+                    currentBet = null;
+                    setTimeout(() => { document.getElementById('multiplierDisplay').className = 'multiplier-overlay'; document.getElementById('multiplierDisplay').style.color = '#fff'; }, 2000);
+                    break;
+
+                case 'PLAYER_BET':
+                    addChat('sys', data.playerName, '🎲 Bet ₹' + data.amount);
+                    break;
+
+                case 'PLAYER_CASHOUT':
+                    addChat('big', data.playerName, '💰 Won ₹' + data.profit.toFixed(2) + ' @ ' + data.multiplier + 'x!');
+                    break;
+
+                case 'CHAT':
+                    addChat(data.message.type || 'player', data.message.playerName, data.message.text);
+                    break;
+
+                case 'HISTORY':
+                    updateHistory(data.history);
+                    break;
+
+                case 'LEADERBOARD':
+                    updateLeaderboard(data.leaderboard || []);
+                    break;
+
+                case 'DEPOSIT_INITIATED':
+                    document.getElementById('upiSection').style.display = 'block';
+                    document.getElementById('qrImage').src = data.upiDetails.qrImage;
+                    document.getElementById('upiIdDisplay').textContent = data.upiDetails.upiId;
+                    document.getElementById('upiAmt').textContent = data.amount;
+                    document.getElementById('upiSection').dataset.txnId = data.transactionId;
+                    document.getElementById('upiSection').dataset.amount = data.amount;
+                    if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) && data.upiDetails.upiIntent) {
+                        setTimeout(() => window.location.href = data.upiDetails.upiIntent, 500);
+                    }
+                    break;
+
+                case 'DEPOSIT_CONFIRMED':
+                    balance = data.newBalance;
+                    document.getElementById('balance').textContent = balance.toFixed(2);
+                    freeBets = data.freeBets || 0;
+                    if (user) { user.vipTier = data.vipTier; updateVIPBadge(data.vipTier); }
+                    closeModal('depositModal');
+                    alert('✅ Deposit Successful!\n₹' + data.credited + ' added (₹' + data.bonus + ' bonus)');
+                    break;
+
+                case 'WITHDRAWAL_INITIATED':
+                    balance = data.newBalance;
+                    document.getElementById('balance').textContent = balance.toFixed(2);
+                    closeModal('withdrawModal');
+                    alert('✅ ' + (data.message || 'Withdrawal initiated!'));
+                    break;
+
+                case 'TRANSACTION_HISTORY':
+                    showTransactions(data.transactions);
+                    break;
+
+                case 'FREE_BET_ACTIVATED':
+                    freeBets = data.freeBets;
+                    document.getElementById('betAmount').value = 50;
+                    alert('🎁 Free bet activated! Place bet up to ₹50!');
+                    break;
+
+                case 'VERIFICATION_RESULT':
+                    const ic = document.getElementById('vIcon');
+                    const tx = document.getElementById('vText');
+                    if (data.isValid) {
+                        ic.textContent = '✅'; ic.style.color = '#00ff88';
+                        tx.innerHTML = '<span style="color:#00ff88;">✅ VERIFIED FAIR!</span><br>Calc: ' + data.calculatedCrash + 'x | Expected: ' + data.expectedCrash + 'x';
+                    } else {
+                        ic.textContent = '❌'; ic.style.color = '#ff4444';
+                        tx.innerHTML = '<span style="color:#ff4444;">❌ FAILED</span><br>Calc: ' + data.calculatedCrash + 'x | Expected: ' + data.expectedCrash + 'x';
+                    }
+                    break;
+
+                case 'ERROR':
+                    alert('❌ ' + data.message);
+                    break;
+            }
+        }
+
+        // ============ GAME ACTIONS ============
+        function placeBet() {
+            if (gameState !== 'waiting') return alert('Wait for next round!');
+            if (balance <= 0) return alert('Please deposit first!');
+            const amount = parseFloat(document.getElementById('betAmount').value);
+            const autoCashout = document.getElementById('autoCashout').value ? parseFloat(document.getElementById('autoCashout').value) : null;
+            if (isNaN(amount) || amount <= 0) return alert('Enter valid amount');
+            if (amount > balance) return alert('Insufficient balance');
+            ws.send(JSON.stringify({ type: 'BET', amount, autoCashout }));
+        }
+
+        function cashout() {
+            if (gameState !== 'flying' || !currentBet) return;
+            ws.send(JSON.stringify({ type: 'CASHOUT' }));
+        }
+
+        function setBet(v) { document.getElementById('betAmount').value = v; }
+
+        function useFreeBet() {
+            if (freeBets > 0) ws.send(JSON.stringify({ type: 'USE_FREE_BET' }));
+            else alert('No free bets! Earn by leveling up.');
+        }
+
+        function changeMode(m) { ws.send(JSON.stringify({ type: 'SET_MODE', mode: m })); }
+
+        function sendChat() {
+            const inp = document.getElementById('chatInput');
+            const txt = inp.value.trim();
+            if (!txt) return;
+            ws.send(JSON.stringify({ type: 'CHAT', text: txt }));
+            inp.value = '';
+        }
+
+        function switchPanel(p) {
+            ['bet','chat','lb'].forEach(x => document.getElementById(x+'Panel').classList.toggle('hidden', x !== p));
+            document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            if (p === 'lb') ws.send(JSON.stringify({ type: 'GET_LEADERBOARD' }));
+        }
+
+        // ============ UI HELPERS ============
+        function updateHistory(h) {
+            document.getElementById('historyBar').innerHTML = h.slice().reverse().map(r =>
+                `<div class="hdot ${r.crashPoint>=10?'high':r.crashPoint>=2?'mid':'low'}">${r.crashPoint.toFixed(2)}x</div>`
+            ).join('');
+        }
+
+        function updateLeaderboard(lb) {
+            const el = document.getElementById('leaderboardList');
+            if (!lb?.length) { el.innerHTML = '<p style="color:var(--text2);text-align:center;">No data</p>'; return; }
+            el.innerHTML = lb.map(p =>
+                `<div class="lb-row"><span class="lb-r ${p.rank<=3?'t3':''}">${p.rank<=3?['🥇','🥈','🥉'][p.rank-1]:'#'+p.rank}</span><span>${p.username} <small style="color:var(--text2);">${p.vipTier||''}</small></span><span class="lb-w">₹${p.winnings.toFixed(0)}</span></div>`
+            ).join('');
+        }
+
+        function addChat(type, name, text) {
+            const c = document.getElementById('chatMessages');
+            const d = document.createElement('div');
+            d.className = 'cmsg cmsg-' + (type === 'sys' ? 'sys' : type === 'big' ? 'big' : '');
+            d.innerHTML = `<strong style="color:var(--accent)">${name}</strong> <small style="color:var(--text2)">${new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</small><br>${text}`;
+            c.appendChild(d);
+            c.scrollTop = c.scrollHeight;
+            if (c.children.length > 50) c.removeChild(c.firstChild);
+        }
+
+        function showLevelUp(lvl) {
+            const d = document.createElement('div');
+            d.className = 'level-up';
+            d.textContent = '🎉 LEVEL ' + lvl + '! 🎉';
+            document.body.appendChild(d);
+            setTimeout(() => d.remove(), 2000);
+        }
+
+        // ============ MODALS ============
+        function openModal(id) {
+            document.getElementById(id).classList.add('show');
+            if (id === 'txnModal') ws.send(JSON.stringify({ type: 'GET_TRANSACTIONS' }));
+            if (id === 'withdrawModal') document.getElementById('wBalance').textContent = balance.toFixed(2);
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('show');
+            if (id === 'depositModal') document.getElementById('upiSection').style.display = 'none';
+        }
+
+        // ============ DEPOSIT ============
+        function selectDepAmount(v) {
+            document.getElementById('depositAmount').value = v;
+            document.querySelectorAll('#depositModal .chip').forEach(c => c.classList.remove('sel'));
+            event.target.classList.add('sel');
+            updateDepInfo();
+        }
+
+        function updateDepInfo() {
+            const a = parseFloat(document.getElementById('depositAmount').value) || 0;
+            const b = Math.floor(a * 0.10);
+            document.getElementById('bonusAmt').textContent = b;
+            document.getElementById('totalGet').textContent = (a + b).toFixed(0);
+        }
+
+        function initiateDeposit() {
+            const a = parseFloat(document.getElementById('depositAmount').value);
+            if (isNaN(a) || a < 100) return alert('Min ₹100');
+            ws.send(JSON.stringify({ type: 'DEPOSIT_REQUEST', amount: a }));
+        }
+
+        function confirmDeposit() {
+            const txnId = document.getElementById('upiSection').dataset.txnId;
+            const ref = document.getElementById('upiReference').value.trim();
+            if (!ref) return alert('Enter UPI Reference');
+            ws.send(JSON.stringify({ type: 'CONFIRM_DEPOSIT', transactionId: txnId, upiReference: ref, amount: parseFloat(document.getElementById('upiSection').dataset.amount) }));
+        }
+
+        function copyUPI() {
+            navigator.clipboard.writeText(document.getElementById('upiIdDisplay').textContent).then(() => alert('✅ Copied!'));
+        }
+
+        // ============ WITHDRAW ============
+        function requestWithdrawal() {
+            const a = parseFloat(document.getElementById('withdrawAmount').value);
+            const upi = document.getElementById('withdrawUpiId').value.trim();
+            if (isNaN(a) || a < 200) return alert('Min ₹200');
+            if (a > balance) return alert('Insufficient balance');
+            if (!upi) return alert('Enter UPI ID');
+            ws.send(JSON.stringify({ type: 'WITHDRAW_REQUEST', amount: a, upiId: upi }));
+        }
+
+        // ============ TRANSACTIONS ============
+        function showTransactions(txns) {
+            const el = document.getElementById('txnList');
+            if (!txns?.length) { el.innerHTML = '<p style="color:var(--text2);text-align:center;">No transactions</p>'; return; }
+            el.innerHTML = txns.map(t =>
+                `<div class="txn-item ${t.type==='deposit'?'txn-dep':'txn-wit'}">
+                    <div><strong>${t.type==='deposit'?'💰 Deposit':'💸 Withdraw'}</strong><br><small style="color:var(--text2);">${new Date(t.timestamp).toLocaleDateString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</small>${t.bonus?`<br><small style="color:var(--gold);">+₹${t.bonus} Bonus</small>`:''}</div>
+                    <div style="text-align:right;"><strong style="color:${t.type==='deposit'?'var(--green)':'var(--orange)'}">${t.type==='deposit'?'+':'-'}₹${t.amount}</strong><br><span class="stb stb-${t.status==='completed'?'ok':t.status==='pending'?'pend':t.status==='processing'?'proc':'appr'}">${t.status}</span></div>
+                </div>`
+            ).join('');
+        }
+
+        // ============ VERIFY ============
+        function verifyRound() {
+            const rid = document.getElementById('vRoundId').value;
+            const ss = document.getElementById('vServerSeed').value;
+            const cs = document.getElementById('vClientSeed').value;
+            const cp = parseFloat(document.getElementById('vCrashPoint').value);
+            if (!rid || !ss || !cs || !cp) return alert('Wait for round completion');
+            ws.send(JSON.stringify({ type: 'VERIFY', roundId: rid, serverSeed: ss, clientSeed: cs, crashPoint: cp }));
+        }
+
+        // ============ CANVAS ============
+        function drawLoop() {
+            const w = canvas.width, h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            // Grid
+            ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+            ctx.lineWidth = 0.5;
+            for (let i = 0; i < 20; i++) {
+                ctx.beginPath(); ctx.moveTo(w/20*i, 0); ctx.lineTo(w/20*i, h); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(0, h/15*i); ctx.lineTo(w, h/15*i); ctx.stroke();
+            }
+
+            if (gameState === 'flying' || gameState === 'crashed') {
+                const sx = 40, sy = h - 70, mx = w - 80, my = 50;
+                ctx.beginPath();
+                ctx.strokeStyle = 'rgba(0,210,255,0.25)';
+                ctx.lineWidth = 2;
+                for (let t = 0; t <= 100; t++) {
+                    const x = sx + (mx - sx) * (t/100);
+                    const y = sy - (sy - my) * (Math.pow(Math.E, t*0.06)/100);
+                    if (x > mx || y < my) break;
+                    t === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+
+                const prog = Math.min((currentMultiplier - 1) / 5, 1);
+                const px = sx + (mx - sx) * prog;
+                const py = sy - (sy - my) * (Math.pow(Math.E, prog*6)/100);
+                const cY = Math.max(my, Math.min(sy, py));
+
+                airplaneTrail.push({ x: px - 25, y: cY, a: 1, s: 3 + Math.random()*2 });
+                if (airplaneTrail.length > 40) airplaneTrail.shift();
+                airplaneTrail.forEach(p => {
+                    p.a -= 0.025;
+                    ctx.fillStyle = `rgba(0,210,255,${p.a})`;
+                    ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI*2); ctx.fill();
+                });
+
+                ctx.save();
+                ctx.translate(px, cY);
+                ctx.rotate(-0.15);
+                ctx.font = '36px Arial';
+                ctx.textAlign = 'center';
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = 'rgba(0,210,255,0.6)';
+                ctx.fillText('✈️', 0, 0);
+                ctx.restore();
+            }
+
+            if (gameState === 'crashed') {
+                const prog = Math.min((currentMultiplier - 1) / 5, 1);
+                const ex = 40 + (w - 120) * prog;
+                const ey = h - 70 - (h - 120) * (Math.pow(Math.E, prog*6)/100);
+                for (let i = 0; i < 20; i++) {
+                    const ang = Math.PI * 2 * i / 20;
+                    const dist = 15 + Math.random() * 25;
+                    ctx.fillStyle = `rgba(255,${Math.floor(Math.random()*150)},0,${Math.random()*0.8})`;
+                    ctx.beginPath();
+                    ctx.arc(ex + Math.cos(ang)*dist, Math.max(50, Math.min(h-70, ey + Math.sin(ang)*dist)), 2+Math.random()*4, 0, Math.PI*2);
+                    ctx.fill();
+                }
+            }
+
+            requestAnimationFrame(drawLoop);
+        }
+
+        // ============ KEYBOARD ============
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Enter' && gameState === 'waiting' && !document.querySelector('.modal-over.show')) placeBet();
+            if (e.key === ' ' && gameState === 'flying') { e.preventDefault(); cashout(); }
+            if (e.key === 'Escape') document.querySelectorAll('.modal-over.show').forEach(m => m.classList.remove('show'));
+        });
+
+        // Close modals on overlay click
+        document.querySelectorAll('.modal-over').forEach(ov => {
+            ov.addEventListener('click', function(e) { if (e.target === this) this.classList.remove('show'); });
+        });
+
+        // ============ INIT ============
+        if (token) verifyAndEnter();
+
+        console.log('✈️ Aviator v3.0 Ready');
+        console.log('🔐 Auth: JWT | 💳 UPI | 🔒 CSPRNG');
+        console.log('⌨️ Enter=Bet | Space=Cashout | Esc=Close');
+    </script>
+</body>
+</html>

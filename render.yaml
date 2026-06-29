@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 services:
   - type: web
     name: aviator-game
@@ -13,4 +14,21 @@ services:
     disk:
       name: data
       mountPath: /opt/render/project/src/backend/data
+=======
+services:
+  - type: web
+    name: aviator-game
+    env: node
+    region: singapore
+    buildCommand: npm install
+    startCommand: node backend/server.js
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: UPI_ID
+        sync: false
+    disk:
+      name: data
+      mountPath: /opt/render/project/src/backend/data
+>>>>>>> 342c78fc2f7228a8da1ff6b1a4e56efb3172485a
       sizeGB: 1
