@@ -771,7 +771,7 @@ app.get('/api/leaderboard', (req, res) => res.json(engine.getLeaderboard(50)));
 app.get('/api/stats', (req, res) => res.json(engine.getStats()));
 app.get('/api/modes', (req, res) => res.json(CONFIG.modes));
 
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
 });
 
